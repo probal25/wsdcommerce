@@ -11,8 +11,6 @@ import ws.probal.wsdcommerce.common.utils.AppUtils;
 import ws.probal.wsdcommerce.domain.response.CustomerWishListResponse;
 import ws.probal.wsdcommerce.service.wishlist.IUserWishListService;
 
-import java.util.List;
-
 @RestController
 @RequestMapping(AppUtils.BASE_URL + "/wish-list")
 @RequiredArgsConstructor
