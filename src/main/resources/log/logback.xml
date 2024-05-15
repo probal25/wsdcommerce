@@ -72,5 +72,8 @@
     <logger name="traceLogger" level="TRACE" additivity="false">
         <appender-ref ref="TRACE_FILE_APPENDER"/>
     </logger>
-    
+
+<!--    <root level="INFO">-->
+<!--        <appender-ref ref="STDOUT_CONSOLE_APPENDER"/>-->
+<!--    </root>-->
 </configuration>
