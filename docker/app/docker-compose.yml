@@ -9,6 +9,9 @@ services:
     depends_on:
       - flyway
       - mysql
+      - logstash
+    volumes:
+      - ./logs:/logs
 
   flyway:
     image: flyway/flyway
@@ -28,3 +31,34 @@ services:
       - MYSQL_DATABASE=wsd_ecom_db
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_PASSWORD=root
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.12.1
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      - "allow_partial_search_results=true"
+    ports:
+      - "9200:9200"
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.12.1
+    volumes:
+      - ./logstash/pipeline:/usr/share/logstash/pipeline
+      - ./logs:/logs
+    depends_on:
+      - elasticsearch
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.12.1
+    ports:
+      - "5601:5601"
+    environment:
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
+
+volumes:
+  esdata:
