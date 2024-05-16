@@ -7,6 +7,7 @@ import ws.probal.wsdcommerce.domain.response.SaleDayResponse;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 public interface SaleRepository extends JpaRepository<Sale, Long> {
 
@@ -21,6 +22,6 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
             "    FROM sale\n" +
             "    WHERE sale_date BETWEEN :startDate AND :endDate" +
             ")", nativeQuery = true)
-    SaleDayResponse maxSaleDayInSaleDate(LocalDate startDate, LocalDate endDate);
+    List<Object[]> maxSaleDayInSaleDate(LocalDate startDate, LocalDate endDate);
 
 }

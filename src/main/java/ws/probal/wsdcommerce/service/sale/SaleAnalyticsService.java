@@ -11,7 +11,6 @@ import ws.probal.wsdcommerce.repository.SaleItemRepository;
 import ws.probal.wsdcommerce.repository.SaleRepository;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,10 +41,20 @@ public class SaleAnalyticsService implements ISaleAnalyticsService {
     @Override
     public SaleDayResponse getMaxSaleDay(SearchRequest searchRequest) {
 
-        return saleRepository.maxSaleDayInSaleDate(
+        List<Object[]> result =  saleRepository.maxSaleDayInSaleDate(
                 searchRequest.getStartDate(),
                 searchRequest.getEndDate()
         );
+
+        if (result.isEmpty()) {
+            return null;
+        }
+
+        Object[] row = result.get(0);
+        LocalDate date = LocalDate.parse(row[0].toString());
+        BigDecimal amount = (BigDecimal) row[1];
+
+        return new SaleDayResponse(date, amount);
     }
 
     @Override
